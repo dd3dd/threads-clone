@@ -1,7 +1,7 @@
 import Image from "next/image";
-import loginImage from "../../public/login-image.png";
-import igLogo from "../../public/ig-logo.png";
-import chevronRight from "../../public/chevron-right.svg";
+import loginImage from "../../../public/login/login-image.png";
+import igLogo from "../../../public/ig-logo.png";
+import chevronRight from "../../../public/chevron-right.svg";
 
 export default function Page() {
   return (
