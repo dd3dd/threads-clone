@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <header className="flex fixed top-0 w-screen px-4 max-w-[1230px] h-[74px] select-none">
+    <header className="flex sticky top-0 w-screen px-4 z-10 max-w-[1230px] h-[74px] select-none bg-[#101010]">
       <div className="md:hidden flex-1"></div>
       <div className="flex-1 flex items-center justify-center md:justify-start">
         <Link href={"/"}>

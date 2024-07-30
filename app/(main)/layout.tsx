@@ -7,7 +7,7 @@ export default function MainLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="min-h-screen flex justify-center bg-[#101010]">
+    <div className="min-h-screen flex flex-col items-center overflow-hidden bg-[#101010]">
       <Header />
       {children}
       <div className="md:hidden fixed bottom-0 w-screen h-[74px]">
