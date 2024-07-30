@@ -1,9 +1,17 @@
-export default function Heart({ color }: { color: string }) {
+export default function Heart({
+  width,
+  height,
+  color,
+}: {
+  width: number;
+  height: number;
+  color: string;
+}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="26"
-      height="26"
+      width={width}
+      height={height}
       fill={color}
       className="bi bi-heart"
       viewBox="0 0 16 16"

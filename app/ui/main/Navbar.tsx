@@ -21,7 +21,7 @@ export default function Navbar() {
   const commonStyle =
     "flex justify-center items-center w-1/5 h-full cursor-pointer rounded-[8px] hover:bg-[#1C1C1C] active:scale-[0.95]";
   return (
-    <nav className="flex w-full h-full">
+    <nav className="flex w-full h-full bg-[#101010]">
       {items.map((item) => {
         let component;
         switch (item.name) {
@@ -45,12 +45,16 @@ export default function Navbar() {
             if (!isLoggedin) {
               return (
                 <div className={commonStyle} key={item.name}>
-                  <Heart color={"#4D4D4D"} />
+                  <Heart width={26} height={26} color={"#4D4D4D"} />
                 </div>
               );
             }
             component = (
-              <Heart color={pathname === "/activity" ? "#F3F5F7" : "#4D4D4D"} />
+              <Heart
+                width={26}
+                height={26}
+                color={pathname === "/activity" ? "#F3F5F7" : "#4D4D4D"}
+              />
             );
             break;
           case "/profile":

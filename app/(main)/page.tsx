@@ -1,3 +1,5 @@
+import PostList from "../ui/main/post/PostList";
+
 export default function Home() {
-  return <div className="flex justify-center"></div>;
+  return <PostList />;
 }
