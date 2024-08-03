@@ -1,3 +1,4 @@
+"use client";
 import { PostProps } from "@/app/lib/definitions";
 import Image from "next/image";
 import avatar from "../../../../public/avatar.png";

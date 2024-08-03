@@ -38,7 +38,7 @@ export const posts = [
     timestamp: "2024-07-29T09:30:00Z",
   },
   {
-    id: 3,
+    id: 4,
     author: {
       id: 103,
       name: "Charlie",
@@ -51,7 +51,7 @@ export const posts = [
     timestamp: "2024-07-29T09:30:00Z",
   },
   {
-    id: 3,
+    id: 5,
     author: {
       id: 103,
       name: "Charlie",
@@ -64,7 +64,7 @@ export const posts = [
     timestamp: "2024-07-29T09:30:00Z",
   },
   {
-    id: 3,
+    id: 6,
     author: {
       id: 103,
       name: "Charlie",
@@ -76,7 +76,7 @@ export const posts = [
     timestamp: "2024-07-29T09:30:00Z",
   },
   {
-    id: 3,
+    id: 7,
     author: {
       id: 103,
       name: "Charlie",
@@ -89,7 +89,7 @@ export const posts = [
     timestamp: "2024-07-29T09:30:00Z",
   },
   {
-    id: 3,
+    id: 8,
     author: {
       id: 103,
       name: "Charlie",
@@ -102,7 +102,7 @@ export const posts = [
     timestamp: "2024-07-29T09:30:00Z",
   },
   {
-    id: 3,
+    id: 9,
     author: {
       id: 103,
       name: "Charlie",
@@ -114,7 +114,7 @@ export const posts = [
     timestamp: "2024-07-29T09:30:00Z",
   },
   {
-    id: 3,
+    id: 10,
     author: {
       id: 103,
       name: "Charlie",
@@ -126,7 +126,7 @@ export const posts = [
     timestamp: "2024-07-29T09:30:00Z",
   },
   {
-    id: 3,
+    id: 11,
     author: {
       id: 103,
       name: "Charlie",
@@ -138,7 +138,7 @@ export const posts = [
     timestamp: "2024-07-29T09:30:00Z",
   },
   {
-    id: 3,
+    id: 12,
     author: {
       id: 103,
       name: "Charlie",
