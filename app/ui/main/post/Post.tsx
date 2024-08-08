@@ -3,20 +3,19 @@ import { PostProps } from "@/app/lib/definitions";
 import Image from "next/image";
 import avatar from "../../../../public/avatar.png";
 import Link from "next/link";
-import Chat from "../../svg/Chat";
-import Heart from "../../svg/Heart";
+import { ChatBubbleOvalLeftIcon, HeartIcon } from "@heroicons/react/24/outline";
 
 export function InteractiveBtn({ type }: { type: "like" | "comment" }) {
   return (
     <div className="flex">
       {type === "like" ? (
         <div className="px-3 py-1 flex items-center rounded-[1000px] cursor-pointer hover:bg-[#1E1E1E]">
-          <Heart width={16} height={16} color={"#CCCCCC"} />
+          <HeartIcon className="size-5 text-[#CCCCCC]" />
           <span className="ml-1 text-sm text-[#CCCCCC]">24</span>
         </div>
       ) : (
         <div className="ml-2 px-3 py-1 flex items-center rounded-[1000px] cursor-pointer hover:bg-[#1E1E1E]">
-          <Chat color={"#CCCCCC"} />
+          <ChatBubbleOvalLeftIcon className="size-5 text-[#CCCCCC]" />
           <span className="ml-1 text-sm text-[#CCCCCC]">16</span>
         </div>
       )}
