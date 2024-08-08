@@ -1,12 +1,15 @@
 "use client";
-import Home from "../svg/Home";
-import Search from "../svg/Search";
-import Newpost from "../svg/Newpost";
-import Heart from "../svg/Heart";
-import Profile from "../svg/Profile";
+import {
+  MagnifyingGlassIcon,
+  PencilSquareIcon,
+  HeartIcon,
+  UserIcon,
+} from "@heroicons/react/24/outline";
+import { HomeIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import clsx from "clsx";
 
 export default function Navbar() {
   const items = [
@@ -27,33 +30,44 @@ export default function Navbar() {
         switch (item.name) {
           case "/":
             component = (
-              <Home color={pathname === "/" ? "#F3F5F7" : "#4D4D4D"} />
+              <HomeIcon
+                className={clsx("size-8", {
+                  "text-[#F3F5F7]": pathname === "/",
+                  "text-[#4D4D4D]": pathname !== "/",
+                })}
+              />
             );
             break;
           case "/search":
             component = (
-              <Search color={pathname === "/search" ? "#F3F5F7" : "#4D4D4D"} />
+              <MagnifyingGlassIcon
+                className={clsx("size-8", {
+                  "text-[#F3F5F7]": pathname === "/search",
+                  "text-[#4D4D4D]": pathname !== "/search",
+                })}
+              />
             );
             break;
           case "newpost":
             return (
               <div className={commonStyle} key={item.name}>
-                <Newpost color={"#4D4D4D"} />
+                <PencilSquareIcon className="size-8 text-[#4D4D4D]" />
               </div>
             );
           case "/activity":
             if (!isLoggedin) {
               return (
                 <div className={commonStyle} key={item.name}>
-                  <Heart width={26} height={26} color={"#4D4D4D"} />
+                  <HeartIcon className="size-8 text-[#4D4D4D]" />
                 </div>
               );
             }
             component = (
-              <Heart
-                width={26}
-                height={26}
-                color={pathname === "/activity" ? "#F3F5F7" : "#4D4D4D"}
+              <HeartIcon
+                className={clsx("size-8", {
+                  "text-[#F3F5F7]": pathname === "/activity",
+                  "text-[#4D4D4D]": pathname !== "/activity",
+                })}
               />
             );
             break;
@@ -61,13 +75,16 @@ export default function Navbar() {
             if (!isLoggedin) {
               return (
                 <div className={commonStyle} key={item.name}>
-                  <Profile color={"#4D4D4D"} />
+                  <UserIcon className="size-8 text-[#4D4D4D]" />
                 </div>
               );
             }
             component = (
-              <Profile
-                color={pathname === "/profile" ? "#F3F5F7" : "#4D4D4D"}
+              <UserIcon
+                className={clsx("size-8", {
+                  "text-[#F3F5F7]": pathname === "/profile",
+                  "text-[#4D4D4D]": pathname !== "/profile",
+                })}
               />
             );
             break;
