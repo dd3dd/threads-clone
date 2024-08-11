@@ -1,6 +1,7 @@
 "use client";
 import { ReactNode, useRef } from "react";
-
+import { createThread } from "@/app/lib/action";
+import { useSession } from "next-auth/react";
 export default function Modal({
   type,
   closeModal,
@@ -16,6 +17,11 @@ export default function Modal({
       closeModal();
     }
   };
+  const { data: session } = useSession();
+  const createThreadWithEmail = createThread.bind(
+    null,
+    session?.user?.email || ""
+  );
   return (
     <div
       ref={overlay}
@@ -27,9 +33,13 @@ export default function Modal({
           {type === "newpost" ? "新串文" : "回覆"}
         </div>
 
-        <div className="px-6 pt-6 pb-4 w-screen max-w-[620px] z-20 rounded-2xl border border-[#383939] bg-[#181818]">
+        <form
+          onSubmit={() => closeModal()}
+          action={createThreadWithEmail}
+          className="px-6 pt-6 pb-4 w-screen max-w-[620px] z-20 rounded-2xl border border-[#383939] bg-[#181818]"
+        >
           {children}
-        </div>
+        </form>
       </div>
     </div>
   );
