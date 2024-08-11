@@ -1,17 +1,13 @@
 "use client";
-import Image from "next/image";
-import avatar from "../../../../public/avatar.png";
 import { useState } from "react";
 import Modal from "../Modal";
-import CreateThreads from "../CreateThreads";
-export default function CreatePost() {
+import CreateContent from "../CreateContent";
+export default function OpenModal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [threadsArr, setThreadsArr] = useState([{ id: 0 }]);
+  const [threadsArr, setThreadsArr] = useState(["0"]);
+
   return (
-    <div className="flex py-4 w-full">
-      <div className="mr-3 select-none">
-        <Image className="rounded-full" width={32} src={avatar} alt="avatar" />
-      </div>
+    <>
       <div
         onClick={() => setIsModalOpen(true)}
         className="h-8 flex items-center flex-1 cursor-text text-sm text-[#777777]"
@@ -21,25 +17,24 @@ export default function CreatePost() {
       {isModalOpen && (
         <Modal type={"newpost"} closeModal={(): void => setIsModalOpen(false)}>
           {threadsArr.map((el) => (
-            <CreateThreads
-              id={el.id}
-              key={el.id}
+            <CreateContent
+              textareaId={el}
+              key={el}
               threadsArr={threadsArr}
-              handleThreadsArr={(arr: { id: number }[]): void =>
-                setThreadsArr(arr)
-              }
+              handleThreadsArr={(arr: string[]): void => setThreadsArr(arr)}
             />
           ))}
           <div className="flex justify-end">
-            <div
+            <button
+              type="submit"
               className="flex justify-center items-center w-[64px] h-9 rounded-lg border cursor-pointer text-sm font-semibold
-             border-[#383939] text-[#F2F4F6]"
+       border-[#383939] text-[#F2F4F6]"
             >
               發佈
-            </div>
+            </button>
           </div>
         </Modal>
       )}
-    </div>
+    </>
   );
 }

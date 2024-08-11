@@ -14,7 +14,19 @@ datasource db {
 }
 
 model User {
-  email String @id @unique
+  email String @id
   name  String
   image String
+  posts Post[]
+}
+
+model Post {
+  id           String  @id @default(uuid())
+  content      String
+  author       User    @relation(fields: [author_email], references: [email])
+  author_email String
+  replies      Post[]  @relation("Replies")
+  parent       Post?   @relation("Replies", fields: [parent_id], references: [id])
+  parent_id    String?
+  like_count   Int     @default(0)
 }

@@ -1,14 +1,14 @@
-export type Author = {
-  id: number;
-  name: string;
-  avatarUrl: string;
-};
-
-export type PostProps = {
-  id: number;
-  author: Author;
+export type Post = {
+  id: string;
   content: string;
-  likes: number;
-  commentsCount: number;
-  timestamp: string;
+  author_email: string;
+  parent_id: string | null;
+  like_count: number;
+};
+export type PostWithAuthor = Post & {
+  author: {
+    email: string;
+    name: string;
+    image: string;
+  };
 };
