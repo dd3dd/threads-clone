@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ChatBubbleOvalLeftIcon, HeartIcon } from "@heroicons/react/24/outline";
 import { fetchRepliesCount } from "@/app/lib/data";
 import { PostWithAuthor } from "@/app/lib/definitions";
+import clsx from "clsx";
 export function InteractiveBtn({
   type,
   like_count,
@@ -29,17 +30,13 @@ export function InteractiveBtn({
   );
 }
 
-export default async function Post({ post }: { post: PostWithAuthor }) {
-  const { author, content, like_count, id } = post;
+export async function PostContent({ mainPost }: { mainPost: PostWithAuthor }) {
+  const { author, content, like_count, id } = mainPost;
   const { name, image } = author;
   const repliesCount = (await fetchRepliesCount(id)) - 1;
   return (
-    <Link
-      href={`/@${name}/post/${id}`}
-      className="flex w-full py-3 border-t-[0.5px] first:border-none border-[#323333]"
-    >
-      {/* avatar div */}
-      <div className="mr-3 select-none">
+    <div className="w-full mt-2 pb-1">
+      <div className="max-h-8 mb-4 flex select-none">
         <Image
           className="rounded-full"
           width={32}
@@ -47,6 +44,57 @@ export default async function Post({ post }: { post: PostWithAuthor }) {
           src={image}
           alt="avatar"
         />
+        <div className="ml-3 flex items-center text-sm">
+          <span className="mr-2 font-bold text-[#F3F5F7]">{name}</span>
+          <span className="text-[#777777]">1小時</span>
+        </div>
+      </div>
+      <div className="">
+        {/* content */}
+        <div className="mb-2 text-sm whitespace-pre-wrap text-[#F3F5F7]">
+          {content}
+        </div>
+
+        {/* interactive row */}
+        <div className="ml-[-16px] flex items-center h-9">
+          <InteractiveBtn like_count={like_count} type={"like"} />
+          <InteractiveBtn repliesCount={repliesCount} type={"comment"} />
+        </div>
+      </div>
+    </div>
+  );
+}
+export default async function Post({
+  post,
+  threadsStyle,
+}: {
+  post: PostWithAuthor;
+  threadsStyle: boolean;
+}) {
+  const { author, content, like_count, id } = post;
+  const { name, image } = author;
+  const repliesCount = (await fetchRepliesCount(id)) - 1;
+  return (
+    <Link
+      href={`/@${name}/post/${id}`}
+      className={clsx("flex w-full", {
+        "py-3 border-t-[0.5px] first:border-none border-[#323333]":
+          !threadsStyle,
+        "pt-3": threadsStyle,
+      })}
+    >
+      {/* avatar div */}
+      <div className="flex flex-col items-center mr-3 select-none">
+        <Image
+          className="rounded-full"
+          width={32}
+          height={32}
+          src={image}
+          alt="avatar"
+        />
+        {threadsStyle ? (
+          <div className="my-2 flex-1 w-[2px] bg-[#333638]"></div>
+        ) : null}
       </div>
       <div className="flex-1">
         {/* id & time */}
@@ -56,10 +104,12 @@ export default async function Post({ post }: { post: PostWithAuthor }) {
         </div>
 
         {/* content */}
-        <div className="mb-1 text-sm text-[#F3F5F7]">{content}</div>
+        <div className="mb-1 text-sm whitespace-pre-wrap text-[#F3F5F7]">
+          {content}
+        </div>
 
         {/* interactive row */}
-        <div className="ml-[-8px] flex items-center h-9">
+        <div className="ml-[-16px] flex items-center h-9">
           <InteractiveBtn like_count={like_count} type={"like"} />
           <InteractiveBtn repliesCount={repliesCount} type={"comment"} />
         </div>

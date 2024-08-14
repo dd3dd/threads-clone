@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import defaultImg from "../../../public/avatar.png";
+import defaultImg from "../../../../public/avatar.png";
 import { PhotoIcon } from "@heroicons/react/24/outline";
 import { v4 as uuidv4 } from "uuid";
 import { useSession } from "next-auth/react";

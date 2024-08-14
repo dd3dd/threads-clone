@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { Post } from "./definitions";
 export async function createThread(email: string, formData: FormData) {
   const threadArr = Array.from(formData.entries());
-  console.log(threadArr);
   try {
     await db.$transaction(async (db) => {
       const threads = [];
