@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import Modal from "../Modal";
-import CreateContent from "../CreateContent";
+import CreateContent from "./CreateContent";
 export default function OpenModal() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [threadsArr, setThreadsArr] = useState(["0"]);

@@ -1,10 +1,12 @@
 import { db } from "./db";
-export async function fetchPosts() {
+import { PostWithAuthor } from "./definitions";
+export async function fetchPosts(rootId: string) {
   try {
     const posts = await db.post.findMany({
-      where: {
-        parent_id: null,
-      },
+      where:
+        rootId === ""
+          ? { parent_id: null }
+          : { OR: [{ id: rootId }, { parent_id: rootId }] },
       include: {
         author: true,
       },
@@ -36,5 +38,30 @@ export async function fetchRepliesCount(rootId: string): Promise<number> {
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch all replies.");
+  }
+}
+export async function fetchParents(
+  parentId: string | null
+): Promise<PostWithAuthor[]> {
+  try {
+    const parents: PostWithAuthor[] = [];
+
+    async function findParent(parentId: string | null) {
+      if (!parentId) return;
+      const post = await db.post.findUnique({
+        where: { id: parentId },
+        include: { author: true },
+      });
+      if (post) {
+        parents.push(post);
+        await findParent(post.parent_id);
+      }
+    }
+
+    await findParent(parentId);
+    return parents.reverse();
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch parent posts.");
   }
 }

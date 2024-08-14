@@ -1,11 +1,10 @@
 import PostList from "../ui/main/post/PostList";
-
+import PostListContainer from "../ui/main/post/PostListContainer";
 export default async function Home() {
   return (
     //  change to fixed to disable scroll
-    //  suggest post for pt
-    // <div className="pt-[60px]">
-    <PostList />
-    // </div>
+    <PostListContainer>
+      <PostList />
+    </PostListContainer>
   );
 }

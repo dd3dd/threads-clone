@@ -21,12 +21,13 @@ model User {
 }
 
 model Post {
-  id           String  @id @default(uuid())
+  id           String   @id @default(uuid())
   content      String
-  author       User    @relation(fields: [author_email], references: [email])
+  author       User     @relation(fields: [author_email], references: [email])
   author_email String
-  replies      Post[]  @relation("Replies")
-  parent       Post?   @relation("Replies", fields: [parent_id], references: [id])
+  replies      Post[]   @relation("Replies")
+  parent       Post?    @relation("Replies", fields: [parent_id], references: [id])
   parent_id    String?
-  like_count   Int     @default(0)
+  like_count   Int      @default(0)
+  created_at   DateTime @default(now())
 }
