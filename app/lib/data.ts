@@ -14,10 +14,10 @@ export async function fetchPosts(rootId: string) {
     return posts;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch threads.");
+    throw new Error("Failed to fetch posts.");
   }
 }
-export async function fetchRepliesCount(rootId: string): Promise<number> {
+export async function fetchRepliesCount(rootId: string) {
   try {
     const result = await db.$queryRaw<{ count: number }[]>`
     WITH RECURSIVE PostHierarchy AS (
@@ -40,18 +40,18 @@ export async function fetchRepliesCount(rootId: string): Promise<number> {
     throw new Error("Failed to fetch all replies.");
   }
 }
-export async function fetchParents(
-  parentId: string | null
-): Promise<PostWithAuthor[]> {
+export async function fetchParents(parentId: string | null) {
   try {
     const parents: PostWithAuthor[] = [];
 
     async function findParent(parentId: string | null) {
       if (!parentId) return;
+
       const post = await db.post.findUnique({
         where: { id: parentId },
         include: { author: true },
       });
+
       if (post) {
         parents.push(post);
         await findParent(post.parent_id);
@@ -64,4 +64,22 @@ export async function fetchParents(
     console.error("Database Error:", error);
     throw new Error("Failed to fetch parent posts.");
   }
+}
+export async function fetchLikeCount(postId: string) {
+  const likeCount = await db.like.count({
+    where: { post_id: postId },
+  });
+  return likeCount;
+}
+export async function checkIsLiked(email: string, postId: string) {
+  if (!email) return null;
+  const result = await db.like.findUnique({
+    where: {
+      user_email_post_id: {
+        user_email: email,
+        post_id: postId,
+      },
+    },
+  });
+  return result ? result : null;
 }

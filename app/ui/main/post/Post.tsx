@@ -1,80 +1,35 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ChatBubbleOvalLeftIcon, HeartIcon } from "@heroicons/react/24/outline";
-import { fetchRepliesCount } from "@/app/lib/data";
 import { PostWithAuthor } from "@/app/lib/definitions";
+import { Session } from "next-auth";
 import clsx from "clsx";
-export function InteractiveBtn({
-  type,
-  like_count,
-  repliesCount,
-}: {
-  type: "like" | "comment";
-  like_count?: number;
-  repliesCount?: number;
-}) {
-  return (
-    <div className="flex">
-      {type === "like" ? (
-        <div className="px-3 py-1 flex items-center rounded-[1000px] cursor-pointer hover:bg-[#1E1E1E]">
-          <HeartIcon className="size-5 text-[#CCCCCC]" />
-          <span className="ml-1 text-sm text-[#CCCCCC]">{like_count}</span>
-        </div>
-      ) : (
-        <div className="ml-2 px-3 py-1 flex items-center rounded-[1000px] cursor-pointer hover:bg-[#1E1E1E]">
-          <ChatBubbleOvalLeftIcon className="size-5 text-[#CCCCCC]" />
-          <span className="ml-1 text-sm text-[#CCCCCC]">{repliesCount}</span>
-        </div>
-      )}
-    </div>
-  );
-}
+import PostButton from "./PostButton";
+import {
+  checkIsLiked,
+  fetchLikeCount,
+  fetchRepliesCount,
+} from "@/app/lib/data";
+import { formatTimeDifference } from "@/app/lib/util";
 
-export async function PostContent({ mainPost }: { mainPost: PostWithAuthor }) {
-  const { author, content, like_count, id } = mainPost;
-  const { name, image } = author;
-  const repliesCount = (await fetchRepliesCount(id)) - 1;
-  return (
-    <div className="w-full mt-2 pb-1">
-      <div className="max-h-8 mb-4 flex select-none">
-        <Image
-          className="rounded-full"
-          width={32}
-          height={32}
-          src={image}
-          alt="avatar"
-        />
-        <div className="ml-3 flex items-center text-sm">
-          <span className="mr-2 font-bold text-[#F3F5F7]">{name}</span>
-          <span className="text-[#777777]">1小時</span>
-        </div>
-      </div>
-      <div className="">
-        {/* content */}
-        <div className="mb-2 text-sm whitespace-pre-wrap text-[#F3F5F7]">
-          {content}
-        </div>
-
-        {/* interactive row */}
-        <div className="ml-[-16px] flex items-center h-9">
-          <InteractiveBtn like_count={like_count} type={"like"} />
-          <InteractiveBtn repliesCount={repliesCount} type={"comment"} />
-        </div>
-      </div>
-    </div>
-  );
-}
 export default async function Post({
+  session,
   post,
+  type,
   threadsStyle,
 }: {
+  session: Session | null;
   post: PostWithAuthor;
-  threadsStyle: boolean;
+  type: "link" | "div";
+  threadsStyle?: boolean;
 }) {
-  const { author, content, like_count, id } = post;
+  const { author, content, id, created_at } = post;
   const { name, image } = author;
   const repliesCount = (await fetchRepliesCount(id)) - 1;
-  return (
+  const likeCount = await fetchLikeCount(id);
+  const isLiked = await checkIsLiked(session?.user?.email || "", id);
+  const timeDiff = formatTimeDifference(created_at);
+
+  return type === "link" ? (
     <Link
       href={`/@${name}/post/${id}`}
       className={clsx("flex w-full", {
@@ -100,7 +55,7 @@ export default async function Post({
         {/* id & time */}
         <div className="mb-1 flex items-start min-h-[21px] text-sm">
           <span className="mr-2 font-bold text-[#F3F5F7]">{name}</span>
-          <span className="text-[#777777]">1小時</span>
+          <span className="text-[#777777]">{timeDiff}</span>
         </div>
 
         {/* content */}
@@ -109,11 +64,58 @@ export default async function Post({
         </div>
 
         {/* interactive row */}
-        <div className="ml-[-16px] flex items-center h-9">
-          <InteractiveBtn like_count={like_count} type={"like"} />
-          <InteractiveBtn repliesCount={repliesCount} type={"comment"} />
+        <div className="ml-[-16px] flex items-center h-9 select-none">
+          <PostButton
+            isLiked={isLiked}
+            post={post}
+            likeCount={likeCount}
+            type={"like"}
+          />
+          <PostButton
+            post={post}
+            timeDiff={timeDiff}
+            repliesCount={repliesCount}
+            type={"comment"}
+          />
         </div>
       </div>
     </Link>
+  ) : (
+    <div className="w-full mt-2 pb-1">
+      <div className="max-h-8 mb-4 flex select-none">
+        <Image
+          className="rounded-full"
+          width={32}
+          height={32}
+          src={image}
+          alt="avatar"
+        />
+        <div className="ml-3 flex items-center text-sm">
+          <span className="mr-2 font-bold text-[#F3F5F7]">{name}</span>
+          <span className="text-[#777777]">{timeDiff}</span>
+        </div>
+      </div>
+
+      {/* content */}
+      <div className="mb-2 text-sm whitespace-pre-wrap text-[#F3F5F7]">
+        {content}
+      </div>
+
+      {/* interactive row */}
+      <div className="ml-[-16px] flex items-center h-9 select-none">
+        <PostButton
+          isLiked={isLiked}
+          post={post}
+          likeCount={likeCount}
+          type={"like"}
+        />
+        <PostButton
+          post={post}
+          timeDiff={timeDiff}
+          repliesCount={repliesCount}
+          type={"comment"}
+        />
+      </div>
+    </div>
   );
 }
