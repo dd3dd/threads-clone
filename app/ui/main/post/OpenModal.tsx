@@ -15,11 +15,16 @@ export default function OpenModal() {
         建立串文......
       </div>
       {isModalOpen && (
-        <Modal type={"newpost"} closeModal={(): void => setIsModalOpen(false)}>
+        <Modal
+          type={"newpost"}
+          closeModal={(): void => setIsModalOpen(false)}
+          postId={""}
+        >
           {threadsArr.map((el) => (
             <CreateContent
               textareaId={el}
               key={el}
+              reply={false}
               threadsArr={threadsArr}
               handleThreadsArr={(arr: string[]): void => setThreadsArr(arr)}
             />

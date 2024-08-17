@@ -1,28 +1,34 @@
 "use client";
 import { ReactNode, useRef } from "react";
-import { createThread } from "@/app/lib/action";
+import { createPost } from "@/app/lib/action";
 import { useSession } from "next-auth/react";
+import { createPortal } from "react-dom";
 export default function Modal({
   type,
   closeModal,
+  postId,
   children,
 }: {
   type: "newpost" | "reply";
   closeModal: () => void;
+  postId: string;
   children: ReactNode;
 }) {
   const overlay = useRef(null);
   const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
+    e.stopPropagation();
     if (e.target === overlay.current) {
       closeModal();
     }
   };
   const { data: session } = useSession();
-  const createThreadWithEmail = createThread.bind(
+  const createAction = createPost.bind(
     null,
-    session?.user?.email || ""
+    session?.user?.email || "",
+    postId
   );
-  return (
+
+  return createPortal(
     <div
       ref={overlay}
       onClick={onClick}
@@ -35,12 +41,13 @@ export default function Modal({
 
         <form
           onSubmit={() => closeModal()}
-          action={createThreadWithEmail}
+          action={createAction}
           className="px-6 pt-6 pb-4 w-screen max-w-[620px] z-20 rounded-2xl border border-[#383939] bg-[#181818]"
         >
           {children}
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
