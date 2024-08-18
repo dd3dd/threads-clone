@@ -27,7 +27,7 @@ model Post {
   author       User     @relation(fields: [author_email], references: [email])
   author_email String
   replies      Post[]   @relation("Replies")
-  parent       Post?    @relation("Replies", fields: [parent_id], references: [id])
+  parent       Post?    @relation("Replies", fields: [parent_id], references: [id], onDelete: Cascade)
   parent_id    String?
   created_at   DateTime @default(now())
   Like         Like[]

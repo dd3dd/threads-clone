@@ -58,6 +58,14 @@ threads 有許多顯示貼文的方式(為您推薦、追蹤中、已說讚、�
 
 ![like](./public/readme/like.png)
 
+編輯貼文 & 刪除貼文
+
+對自己的貼文編輯或刪除，刪除會同時刪除所有子貼文
+
+![postBtn](./public/readme/edit.png)
+
+![postBtn](./public/readme/edit2.png)
+
 ### 待完成
 
-接下來完成編輯及刪除貼文、持續改進目前已有的部分。
+錯誤處理、整理重覆過多的程式碼

@@ -10,6 +10,7 @@ import {
   fetchRepliesCount,
 } from "@/app/lib/data";
 import { formatTimeDifference } from "@/app/lib/util";
+import PostControlBtn from "./PostControlBtn";
 
 export default async function Post({
   session,
@@ -23,7 +24,7 @@ export default async function Post({
   threadsStyle?: boolean;
 }) {
   const { author, content, id, created_at } = post;
-  const { name, image } = author;
+  const { name, image, email } = author;
   const repliesCount = (await fetchRepliesCount(id)) - 1;
   const likeCount = await fetchLikeCount(id);
   const isLiked = await checkIsLiked(session?.user?.email || "", id);
@@ -53,9 +54,14 @@ export default async function Post({
       </div>
       <div className="flex-1">
         {/* id & time */}
-        <div className="mb-1 flex items-start min-h-[21px] text-sm">
-          <span className="mr-2 font-bold text-[#F3F5F7]">{name}</span>
-          <span className="text-[#777777]">{timeDiff}</span>
+        <div className="flex justify-between items-start min-h-[21px] text-sm">
+          <div>
+            <span className="mr-2 font-bold text-[#F3F5F7]">{name}</span>
+            <span className="text-[#777777]">{timeDiff}</span>
+          </div>
+          {email === session?.user?.email ? (
+            <PostControlBtn post={post} />
+          ) : null}
         </div>
 
         {/* content */}
@@ -82,18 +88,21 @@ export default async function Post({
     </Link>
   ) : (
     <div className="w-full mt-2 pb-1">
-      <div className="max-h-8 mb-4 flex select-none">
-        <Image
-          className="rounded-full"
-          width={32}
-          height={32}
-          src={image}
-          alt="avatar"
-        />
-        <div className="ml-3 flex items-center text-sm">
-          <span className="mr-2 font-bold text-[#F3F5F7]">{name}</span>
-          <span className="text-[#777777]">{timeDiff}</span>
+      <div className="flex justify-between max-h-8 mb-4 select-none">
+        <div className="flex">
+          <Image
+            className="rounded-full"
+            width={32}
+            height={32}
+            src={image}
+            alt="avatar"
+          />
+          <div className="ml-3 flex items-center text-sm">
+            <span className="mr-2 font-bold text-[#F3F5F7]">{name}</span>
+            <span className="text-[#777777]">{timeDiff}</span>
+          </div>
         </div>
+        {email === session?.user?.email ? <PostControlBtn post={post} /> : null}
       </div>
 
       {/* content */}
