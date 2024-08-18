@@ -10,6 +10,9 @@ export async function fetchPosts(rootId: string) {
       include: {
         author: true,
       },
+      orderBy: {
+        created_at: "asc",
+      },
     });
     return posts;
   } catch (error) {

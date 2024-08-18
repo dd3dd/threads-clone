@@ -1,6 +1,6 @@
 "use client";
 import { ReactNode, useRef } from "react";
-import { createPost } from "@/app/lib/action";
+import { createPost, updatePost } from "@/app/lib/action";
 import { useSession } from "next-auth/react";
 import { createPortal } from "react-dom";
 export default function Modal({
@@ -9,7 +9,7 @@ export default function Modal({
   postId,
   children,
 }: {
-  type: "newpost" | "reply";
+  type: "newpost" | "reply" | "edit";
   closeModal: () => void;
   postId: string;
   children: ReactNode;
@@ -28,6 +28,8 @@ export default function Modal({
     postId
   );
 
+  const updateAction = updatePost.bind(null, postId);
+
   return createPortal(
     <div
       ref={overlay}
@@ -36,12 +38,16 @@ export default function Modal({
     >
       <div className="flex flex-col items-center">
         <div className="mb-4 font-semibold text-white">
-          {type === "newpost" ? "新串文" : "回覆"}
+          {type === "newpost"
+            ? "新串文"
+            : type === "reply"
+            ? "回覆"
+            : "編輯貼文"}
         </div>
 
         <form
           onSubmit={() => closeModal()}
-          action={createAction}
+          action={type === "edit" ? updateAction : createAction}
           className="px-6 pt-6 pb-4 w-screen max-w-[620px] z-20 rounded-2xl border border-[#383939] bg-[#181818]"
         >
           {children}
