@@ -90,5 +90,4 @@ export async function deletePost(postId: string) {
     };
   }
   revalidatePath("/");
-  redirect("/");
 }
