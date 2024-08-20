@@ -1,6 +1,6 @@
 import Image from "next/image";
 import loginImage from "../../../public/login/login-image.png";
-import LoginBtn from "@/app/ui/login/LoginBtn";
+import SigninBtn from "@/app/ui/auth/SigninBtn";
 
 export default function Page() {
   return (
@@ -9,7 +9,7 @@ export default function Page() {
         <Image width={1785} src={loginImage} alt="login-image" />
       </div>
       <div className="mt-[20vh] loginForm:mt-0 relative w-full max-w-md p-8 mb-8 rounded-lg">
-        <LoginBtn />
+        <SigninBtn />
       </div>
       <footer className="flex justify-center items-center w-full h-16 absolute bottom-0 text-xs text-[#777777]">
         <ul className="flex">

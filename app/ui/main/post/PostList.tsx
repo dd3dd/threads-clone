@@ -3,14 +3,15 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { fetchParents, fetchPosts } from "@/app/lib/data";
 import CreateContainer from "./CreateContainer";
 import Post from "./Post";
-
+import { redirect } from "next/navigation";
 export default async function PostList({ rootId = "" }: { rootId?: string }) {
   const posts = await fetchPosts(rootId);
+  if (posts.length === 0) redirect("/");
   const session = await getServerSession(authOptions);
   const [mainPost, ...rest] = posts;
   const parents = await fetchParents(mainPost?.parent_id);
   return rootId === "" ? (
-    <>
+    <div className="w-full pb-14 md:pb-0">
       {session ? <CreateContainer avatar={session?.user?.image} /> : null}
       {posts.map((p) => (
         <Post
@@ -21,9 +22,9 @@ export default async function PostList({ rootId = "" }: { rootId?: string }) {
           threadsStyle={false}
         />
       ))}
-    </>
+    </div>
   ) : (
-    <div className="w-full flex flex-col pt-4">
+    <div className="w-full flex flex-col pt-3 pb-14 md:pb-0">
       {parents.map((parent) => (
         <Post
           session={session}

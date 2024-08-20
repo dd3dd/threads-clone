@@ -3,6 +3,7 @@ import Navbar from "../ui/main/Navbar";
 import Sidebar from "../ui/main/Sidebar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
+import BackbtnHeader from "../ui/main/Backbtn-header";
 
 export default async function MainLayout({
   children,
@@ -13,6 +14,7 @@ export default async function MainLayout({
   return (
     <div className="min-h-screen flex flex-col items-center overflow-x-hidden bg-[#101010]">
       {session ? <Sidebar /> : <Header />}
+      <BackbtnHeader />
       {children}
       <div className="md:hidden fixed bottom-0 w-screen h-[74px]">
         <Navbar />

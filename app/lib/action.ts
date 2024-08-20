@@ -1,6 +1,7 @@
 "use server";
 import { db } from "./db";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { Post } from "@prisma/client";
 import { checkIsLiked } from "./data";
 
@@ -16,7 +17,7 @@ export async function createPost(
     const threads = [];
     for (let i = 0; i < threadArr.length; i++) {
       const content = threadArr[i][1] as string;
-
+      if (!content) return;
       const post: Post = await db.post.create({
         data: {
           content: content,
@@ -28,19 +29,25 @@ export async function createPost(
       threads.push(post);
     }
   } catch (error) {
-    console.error("Error create the post:", error);
+    return {
+      message: "Database Error: Failed to Create Post",
+    };
   }
   revalidatePath("/");
 }
 export async function updatePost(postId: string, formData: FormData) {
   const data = Array.from(formData.entries());
+  const content = data[0][1] as string;
+  if (!content) return;
   try {
     await db.post.update({
       where: { id: postId },
-      data: { content: data[0][1] as string },
+      data: { content: content },
     });
   } catch (error) {
-    console.error("Error update the post:", error);
+    return {
+      message: "Database Error: Failed to Update Post",
+    };
   }
   revalidatePath("/");
 }
@@ -64,7 +71,9 @@ export async function toggleLike(email: string, postId: string) {
       });
     }
   } catch (error) {
-    console.error("Error liking the post:", error);
+    return {
+      message: "Database Error: Failed to Toggle Like",
+    };
   }
   revalidatePath("/");
 }
@@ -76,7 +85,10 @@ export async function deletePost(postId: string) {
       },
     });
   } catch (error) {
-    console.error("Error delete the post:", error);
+    return {
+      message: "Database Error: Failed to Delete Post",
+    };
   }
   revalidatePath("/");
+  redirect("/");
 }

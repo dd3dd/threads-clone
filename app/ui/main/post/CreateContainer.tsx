@@ -8,7 +8,7 @@ export default function CreateContainer({
   avatar?: string | null;
 }) {
   return (
-    <div className="flex py-4 w-full">
+    <div className="hidden md:flex py-4 w-full ">
       <div className="mr-3 select-none">
         <Image
           className="rounded-full"

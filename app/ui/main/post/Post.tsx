@@ -36,7 +36,7 @@ export default async function Post({
       className={clsx("flex w-full", {
         "py-3 border-t-[0.5px] first:border-none border-[#323333]":
           !threadsStyle,
-        "pt-3": threadsStyle,
+        "pt-3 pb-2": threadsStyle,
       })}
     >
       {/* avatar div */}
@@ -87,7 +87,7 @@ export default async function Post({
       </div>
     </Link>
   ) : (
-    <div className="w-full mt-2 pb-1">
+    <div className="w-full pb-1">
       <div className="flex justify-between max-h-8 mb-4 select-none">
         <div className="flex">
           <Image

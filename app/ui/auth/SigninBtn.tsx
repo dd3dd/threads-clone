@@ -1,7 +1,7 @@
 "use client";
 import { signIn } from "next-auth/react";
 
-export default function LoginBtn() {
+export default function SigninBtn() {
   return (
     <div
       onClick={() => signIn("github", { callbackUrl: "/" })}

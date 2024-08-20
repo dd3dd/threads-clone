@@ -11,8 +11,9 @@ export default async function PostListContainer({
   return (
     <div
       className={clsx("px-6 w-full max-w-[620px] flex flex-col items-center", {
-        "mt-[80px] bg-[#101010]": !session,
-        "mt-[60px] bg-[#181818] rounded-3xl border border-[#323333]": session,
+        "mt-3 bg-[#101010]": !session,
+        "bg-[#101010] md:bg-[#181818] md:rounded-3xl md:border md:border-[#323333]":
+          session,
       })}
     >
       {children}
