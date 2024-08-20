@@ -1,7 +1,6 @@
 "use server";
 import { db } from "./db";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { Post } from "@prisma/client";
 import { checkIsLiked } from "./data";
 
