@@ -2,7 +2,7 @@ import Header from "../ui/main/Header";
 import Navbar from "../ui/main/Navbar";
 import Sidebar from "../ui/main/Sidebar";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "../lib/auth";
 import BackbtnHeader from "../ui/main/Backbtn-header";
 
 export default async function MainLayout({
