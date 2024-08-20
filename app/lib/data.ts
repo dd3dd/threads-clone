@@ -40,7 +40,7 @@ export async function fetchRepliesCount(rootId: string) {
     return Number(result[0]?.count) ?? 0;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch all replies.");
+    throw new Error("Failed to fetch replies count.");
   }
 }
 export async function fetchParents(parentId: string | null) {
@@ -69,20 +69,30 @@ export async function fetchParents(parentId: string | null) {
   }
 }
 export async function fetchLikeCount(postId: string) {
-  const likeCount = await db.like.count({
-    where: { post_id: postId },
-  });
-  return likeCount;
+  try {
+    const likeCount = await db.like.count({
+      where: { post_id: postId },
+    });
+    return likeCount;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch likes count.");
+  }
 }
 export async function checkIsLiked(email: string, postId: string) {
   if (!email) return null;
-  const result = await db.like.findUnique({
-    where: {
-      user_email_post_id: {
-        user_email: email,
-        post_id: postId,
+  try {
+    const result = await db.like.findUnique({
+      where: {
+        user_email_post_id: {
+          user_email: email,
+          post_id: postId,
+        },
       },
-    },
-  });
-  return result ? result : null;
+    });
+    return result ? result : null;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch check is liked.");
+  }
 }

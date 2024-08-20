@@ -36,6 +36,7 @@ export default function PostButton({
 
   const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.preventDefault();
+    if (!session) return;
     setIsModalOpen(true);
   };
   const likeAction = toggleLike.bind(null, session?.user?.email || "", id);
