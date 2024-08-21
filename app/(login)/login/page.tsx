@@ -1,8 +1,12 @@
 import Image from "next/image";
 import loginImage from "../../../public/login/login-image.png";
 import SigninBtn from "@/app/ui/auth/SigninBtn";
-
-export default function Page() {
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/lib/auth";
+import { redirect } from "next/navigation";
+export default async function Page() {
+  const session = await getServerSession(authOptions);
+  if (session) redirect("/");
   return (
     <div className="min-h-screen flex flex-col items-center justify-center relative bg-[#101010]">
       <div className="absolute top-0 select-none">
