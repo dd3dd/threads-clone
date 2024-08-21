@@ -36,7 +36,7 @@ export default function Header() {
           className="flex items-center w-16 h-[34px] px-4 rounded-[10px] active:scale-[0.90] duration-200 bg-white"
           href={"/login"}
         >
-          <span className="font-semibold">登入</span>
+          <span className="text-sm font-semibold overflow-hidden">登入</span>
         </Link>
       </div>
     </header>
