@@ -38,7 +38,7 @@ model Like {
   id         String @id @default(uuid())
   user       User   @relation(fields: [user_email], references: [email])
   user_email String
-  post       Post   @relation(fields: [post_id], references: [id])
+  post       Post   @relation(fields: [post_id], references: [id], onDelete: Cascade)
   post_id    String
 
   @@unique([user_email, post_id])
