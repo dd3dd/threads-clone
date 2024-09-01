@@ -1,6 +1,6 @@
 # threads-clone
 
-盡可能實現 threads 網頁版的功能及外觀，練習前後端開發技能
+實現 threads 網頁版的基本功能及外觀，練習前後端開發技能
 
 ### Language & Framework & Library & Tool
 
@@ -10,7 +10,7 @@ TypeScript, Next.js, Tailwind CSS, NextAuth.js, Prisma, Supabase
 
 #### 登入
 
-(Instagram API 似乎無法用於驗證，因此改用 GitHub)
+使用NextAuth的GitHub Provider做驗證
 ![login](https://github.com/user-attachments/assets/249eefe5-224d-44bc-936a-b9d22f229006)
 
 若是初次登入的使用者，會在 Supabase 新增該使用者的資料
@@ -26,15 +26,11 @@ TypeScript, Next.js, Tailwind CSS, NextAuth.js, Prisma, Supabase
 
 #### 瀏覽貼文
 
-threads 有許多顯示貼文的方式(為您推薦、追蹤中、已說讚、已儲存)
-
-目前在首頁直接顯示所有貼文，其中回覆的數量包含「直接」回覆和「間接」回覆，也就是上圖的第二及第三貼文，都算是第一篇文的回覆
+在首頁直接顯示所有貼文，其中回覆的數量包含「直接」回覆和「間接」回覆，也就是上圖的第二及第三貼文，都算是第一篇文的回覆
 
 ![allposts](https://github.com/user-attachments/assets/98e9b30d-274f-444c-934e-9b513af60a0f)
 
-特定貼文的顯示方式:
-
-(下圖為 threads 隨機複製一篇串文的內容)
+#### 特定貼文的顯示方式:
 
 當點擊任意一篇貼文，會顯示他的 parent 並遞迴查詢，直到 parent_id 為 null，也就是首頁的貼文。
 
@@ -44,13 +40,13 @@ threads 有許多顯示貼文的方式(為您推薦、追蹤中、已說讚、�
 
 ![nested-posts](./public/readme/nested-posts.png)
 
-回覆特定貼文:
+#### 回覆特定貼文:
 
 點擊留言的 Icon，即可針對特定貼文留言(也就是把 parent_id 設為該貼文)。
 
 ![reply](./public//readme//reply.png)
 
-按愛心 & 貼文時間
+#### 按愛心 & 貼文時間
 
 同一個 user 只能對同一篇貼文按一次愛心(新增這筆 Like 紀錄)，再按一次則取消(刪除這筆 Like 紀錄)
 
@@ -58,14 +54,12 @@ threads 有許多顯示貼文的方式(為您推薦、追蹤中、已說讚、�
 
 ![like](./public/readme/like.png)
 
-編輯貼文 & 刪除貼文
+#### 編輯貼文 & 刪除貼文
 
-對自己的貼文編輯或刪除，刪除會同時刪除所有子貼文
+對自己的貼文編輯或刪除，刪除會同時刪除所有子貼文，且若該貼文有Like紀錄，也會同時被刪除
 
 ![postBtn](./public/readme/edit.png)
 
 ![postBtn](./public/readme/edit2.png)
 
-### 待完成
 
-持續改進現有程式碼
